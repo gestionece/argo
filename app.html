@@ -125,26 +125,27 @@
                 </div>
             </section>
         </div>
-        <div class="container">
+        <div class="container" style="padding-bottom: 50px;">
             <div v-if="page_CpList" class="blur z-depth-2">
                 <div class="row">
                     <div class="col s12">
                         <div class="col-content">
-                            <table class="highlight">
+                            <p class="flow-text"><i>Risultato:</i></p>
+                            <table class="highlight z-depth-1 white" style="border-radius: 15px;">
                                 <thead class="noselect">
                                     <tr>
-                                        <th v-on:click="SorteTable(1)">CP <i v-if="Math.abs(sort) == 1" class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
-                                        <th v-on:click="SorteTable(2)">Status <i v-if="Math.abs(sort) == 2"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
-                                        <th v-on:click="SorteTable(3)">CE <i v-if="Math.abs(sort) == 3"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
-                                        <th v-on:click="SorteTable(4)">CE Errati <i v-if="Math.abs(sort) == 4"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(1)">CP<i v-if="Math.abs(sort) == 1" class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(2)">Status<i v-if="Math.abs(sort) == 2"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(3)">CE<i v-if="Math.abs(sort) == 3"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(4)">CE Errati<i v-if="Math.abs(sort) == 4"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="cp in getCpList">
                                         <td>{{cp}}</td>
                                         <td>{{CpList[cp].status}}</td>
-                                        <td>{{CpList[cp].CE.length}}</td>
-                                        <td>{{CpList[cp].CE_Error.length}}</td>
+                                        <td v-on:click="alert(CpList[cp].CE)">{{CpList[cp].CE.length}}</td>
+                                        <td v-on:click="alert(CpList[cp].CE_Error)">{{CpList[cp].CE_Error.length}}</td>
                                     </tr>
                                 </tbody>
                             </table>
