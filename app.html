@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A-PeP</title>
+    <title>ARGO</title>
 
     <link rel="shortcut icon" type="image/png" href="https://gestionece.github.io/resources/img/favicon.png">
 
-    <!-- development version, includes helpful console warnings -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <!-- production-версия, оптимизированная для размера и скорости -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -81,6 +81,7 @@
         ::-webkit-scrollbar-corner {
             background: transparent;
         }
+
         /* End ScrollBar*/
     </style>
 </head>
@@ -117,50 +118,40 @@
                         </div>
                     </div>
                 </div>
-                <div v-if="page_LCList_loader" class="row">
+                <div v-if="page_CpList_loader" class="row">
                     <div class="progress">
                         <div class="indeterminate green"></div>
                     </div>
                 </div>
             </section>
         </div>
-        <div class="container" style="padding-bottom: 50px;">
-            <div v-if="page_LCList" class="blur z-depth-2">
+        <div class="container">
+            <div v-if="page_CpList" class="blur z-depth-2">
                 <div class="row">
-                    <div class="col s12 m4 l4">
+                    <div class="col s12">
                         <div class="col-content">
-                            <p class="flow-text"><i>Impostazioni:</i></p>
-                            <div class="row">
-                                <div class="input-field col s6">
-                                    <label for="datepickerStart" class="">Data Inizio</label>
-                                    <input ref="datepickerStart" id="datepickerStart" type="text"
-                                        class="datepicker">
-                                </div>
-                                <div class="input-field col s6">
-                                    <label for="datepickerEnd" class="">Data Fine</label>
-                                    <input ref="datepickerEnd" id="datepickerEnd" type="text"
-                                        class="datepicker">
-                                </div>
-                            </div>
+                            <table class="highlight">
+                                <thead class="noselect">
+                                    <tr>
+                                        <th v-on:click="SorteTable(1)">CP <i v-if="Math.abs(sort) == 1" class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(2)">Status <i v-if="Math.abs(sort) == 2"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(3)">CE <i v-if="Math.abs(sort) == 3"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(4)">CE Errati <i v-if="Math.abs(sort) == 4"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="cp in getCpList">
+                                        <td>{{cp}}</td>
+                                        <td>{{CpList[cp].status}}</td>
+                                        <td>{{CpList[cp].CE.length}}</td>
+                                        <td>{{CpList[cp].CE_Error.length}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                    <div class="col s12 m8 l8">
-                        <div class="col-content">
-                            <p class="flow-text"><i>Selezione LCL:</i></p>
-                            <ul class="collection z-depth-2 black-text"
-                                style="border-radius: 15px; overflow-y: auto; max-height: 50vh;">
-                                <li v-for="item in LCList" class="collection-item">
-                                    <label>
-                                        <input v-on:click="changeLCL(item)" type="checkbox" checked="checked" />
-                                        <span style="width: 100%;">
-                                            <b>{{item.CODICE_LCL}}</b>
-                                            <i> ({{item.CODICE_CONTRATTO}})</i>
-                                        </span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                </div>
+                <div class="row">
                     <div class="col s12">
                         <div class="col-content">
                             <a class="waves-effect waves-light btn green" v-on:click="backLCList"><i
