@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-PeP</title>
+
+    <link rel="shortcut icon" type="image/png" href="https://gestionece.github.io/resources/img/favicon.png">
+
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--Import Animate.css-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"
+        type="text/css">
+
+    <style>
+        *:focus {
+            outline: none;
+        }
+
+        .noselect {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently supported by Chrome and Opera */
+        }
+
+        html {
+            background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
+            background-size: cover;
+
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .blur {
+            background-color: rgb(255 255 255 / 80%);
+            border-radius: 15px;
+            padding: 10px;
+            margin-top: 50px;
+            color: black;
+        }
+
+        /* Start ScrollBar*/
+        ::-webkit-scrollbar {
+            width: 2px;
+            height: 1;
+        }
+
+        ::-webkit-scrollbar-button {
+            width: 5px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4CAF50
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+        /* End ScrollBar*/
+    </style>
+</head>
+
+<body>
+    <!-- App -->
+    <div id="app">
+        <!-- https://materializecss.com/ -->
+        <!-- https://www.tutorialspoint.com/materialize/index.htm -->
+        <div class="container">
+            <!-- <transition name="custom-classes-transition" enter-active-class="animate__animated animate__bounceIn"
+                leave-active-class="animate__animated animate__backOutUp"> -->
+            <section v-if="page_loadFile" class="blur">
+                <div class="row">
+                    <h2>Ehi non ti dimentichi nulla? <b>NO NIENTE!</b></h2>
+                    <p class="flow-text"><i>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi dolore,
+                            eius
+                            molestias
+                            enim nesciunt necessitatibus! Dolorum aut, ex ratione aspernatur nisi, iste voluptates
+                            suscipit
+                            tempore
+                            repudiandae mollitia consequuntur excepturi eos.</i>
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="file-field input-field">
+                        <div class="btn green" :disabled='btnLoad_isDisabled'>
+                            <span>Load</span>
+                            <input @change="loadFile($event.target.files[0])" type="file" accept=".xls, .xlsx, .csv">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate white-text" type="text">
+                            <!--readonly-->
+                        </div>
+                    </div>
+                </div>
+                <div v-if="page_LCList_loader" class="row">
+                    <div class="progress">
+                        <div class="indeterminate green"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="container" style="padding-bottom: 50px;">
+            <div v-if="page_LCList" class="blur z-depth-2">
+                <div class="row">
+                    <div class="col s12 m4 l4">
+                        <div class="col-content">
+                            <p class="flow-text"><i>Impostazioni:</i></p>
+                            <div class="row">
+                                <div class="input-field col s6">
+                                    <label for="datepickerStart" class="">Data Inizio</label>
+                                    <input ref="datepickerStart" id="datepickerStart" type="text"
+                                        class="datepicker">
+                                </div>
+                                <div class="input-field col s6">
+                                    <label for="datepickerEnd" class="">Data Fine</label>
+                                    <input ref="datepickerEnd" id="datepickerEnd" type="text"
+                                        class="datepicker">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col s12 m8 l8">
+                        <div class="col-content">
+                            <p class="flow-text"><i>Selezione LCL:</i></p>
+                            <ul class="collection z-depth-2 black-text"
+                                style="border-radius: 15px; overflow-y: auto; max-height: 50vh;">
+                                <li v-for="item in LCList" class="collection-item">
+                                    <label>
+                                        <input v-on:click="changeLCL(item)" type="checkbox" checked="checked" />
+                                        <span style="width: 100%;">
+                                            <b>{{item.CODICE_LCL}}</b>
+                                            <i> ({{item.CODICE_CONTRATTO}})</i>
+                                        </span>
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col s12">
+                        <div class="col-content">
+                            <a class="waves-effect waves-light btn green" v-on:click="backLCList"><i
+                                    class="material-icons left">navigate_before</i>Back</a>
+                            <a class="waves-effect waves-light btn green right"><i
+                                    class="material-icons right">navigate_next</i>Next</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--JavaScript at end of body for optimized loading-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="resource/js/main.js"></script>
+</body>
+
+</html>
