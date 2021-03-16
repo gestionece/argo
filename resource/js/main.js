@@ -1,57 +1,119 @@
 var app = new Vue({
     el: '#app',
     data: {
-        LCList: [],
+        CpList: [],
         loadFileData: {},
         page_loadFile: true,
-        page_LCList: false,
+        page_CpList: false,
         btnLoad_isDisabled: false,
-        page_LCList_loader: false,
+        page_CpList_loader: false,
+
+        sort: 1,
     },
     computed: {
-        activeLCL() {
-            return this.LCList.filter(lcl => lcl.SELECT == true);
+        getCpList() {
+            return Object.keys(this.CpList);
         },
-        deactiveLCL() {
-            return this.LCList.filter(lcl => lcl.SELECT == false);
-        }
-    },
-    updated() {
-        M.Datepicker.init(this.$refs.datepickerStart, {
-            format: "dd/mm/yyyy"
-        });
-        M.Datepicker.init(this.$refs.datepickerEnd, {
-            format: "dd/mm/yyyy"
-        });
-
-        M.Chips.init(document.querySelectorAll('.chips'), {data:  ["Premi", "Percentuale", "Smartest"]});
     },
     methods: {
+        SorteTable(sorted) {
+            if (Math.abs(sorted) == this.sort) {
+                this.CpList = Object.fromEntries(Object.entries(this.CpList).reverse());
+                this.sort *= -1;
+                return;
+            }
+
+            switch (Math.abs(sorted)) {
+                case 1:
+                    this.CpList = Object.fromEntries(
+                        Object.entries(this.CpList).sort(function (a, b) {
+                            var A = a[0];
+                            var B = b[0];
+                            if (A < B) {
+                                return -1;
+                            }
+                            if (A > B) {
+                                return 1;
+                            }
+        
+                            // names must be equal
+                            return 0;
+                        }));
+
+                        this.sort = sorted;
+                    break;
+
+                case 2:
+                    this.CpList = Object.fromEntries(
+                        Object.entries(this.CpList).sort(function (a, b) {
+                            var A = Object.entries(a[1].status);
+                            var B = Object.entries(b[1].status);
+                            if (A < B) {
+                                return -1;
+                            }
+                            if (A > B) {
+                                return 1;
+                            }
+                            // names must be equal
+                            return 0;
+                        }));
+
+                        this.sort = sorted;
+                    break;
+
+                case 3:
+                    this.CpList = Object.fromEntries(
+                        Object.entries(this.CpList).sort((a,b) => a[1].CE.length - b[1].CE.length));
+
+                        this.sort = sorted;
+                    break;
+
+                case 4:
+                    this.CpList = Object.fromEntries(
+                        Object.entries(this.CpList).sort((a,b) => a[1].CE_Error.length - b[1].CE_Error.length));
+
+                        this.sort = sorted;
+                    break;
+
+                default:
+                    break;
+            }
+        },
         loadFile(selectedFile) {
             if (selectedFile && window.Worker) {
 
-                this.page_LCList_loader = true;
+                this.page_CpList_loader = true;
                 this.btnLoad_isDisabled = true;
                 const worker = new Worker('resource/js/worker.js'); //https://dog.ceo/dog-api/
                 worker.postMessage(selectedFile);
                 worker.onmessage = (e) => {
 
                     this.loadFileData = e.data; //uso worker.js per ricevere già JSON dal file EXCEL, problema consite nel riceve due volte, visto che ci sono pagine diverse(si potrebbe valuitare di utlizare un foglio per un contratto).
-                    this.LCList = [];
+                    this.CpList = [];
 
                     this.loadFileData.forEach(row => {
-                        const found = this.LCList.some(oneLCL => oneLCL.CODICE_LCL === row.CODICE_LCL);
-                        if (!found) this.LCList.push({
-                            "CODICE_CONTRATTO": row.CODICE_CONTRATTO,
-                            "CODICE_LCL": row.CODICE_LCL,
-                            "STATO_LCL": row.STATO_LCL,
-                            "SELECT": true,
-                        });
+                        if (this.CpList[row.CASARSID] == undefined) {
+                            this.CpList[row.CASARSID] = {
+                                status: "OK",
+                                CE: [],
+                                CE_Error: [],
+                            };
+                        }
+
+                        if (row.CEID_ASSEGNATO_IMPRESA == "NO") {
+                            this.CpList[row.CASARSID].status = "KO";
+                            this.CpList[row.CASARSID].CE_Error.push(row.CEID);
+                        }
+
+                        this.CpList[row.CASARSID].CE.push(row.CEID);
                     });
 
-                    this.page_LCList_loader = false;
+                    console.log(this.CpList);
+                    console.log(Object.keys(this.CpList));
+
+                    this.page_CpList_loader = false;
                     this.page_loadFile = false;
-                    this.page_LCList = true;
+                    this.page_CpList = true;
                     this.btnLoad_isDisabled = false;
 
                     worker.terminate();
@@ -60,53 +122,7 @@ var app = new Vue({
         },
         backLCList() {
             this.page_loadFile = true;
-            this.page_LCList = false;
+            this.page_CpList = false;
         },
-        changeLCL(value) {
-            value.SELECT = !value.SELECT;
-        }
     }
 });
-
-
-
-/*let workbook = e.data; // uso worker.js per caricare e leggere il file, ma per conversione delle pagine diverse uso main.js
-workbook.SheetNames.forEach(sheet => {
-    let rowObject = XLSX.utils.sheet_to_json(workbook.Sheets[sheet]);
-
-    this.loadFileData = rowObject;
-    this.LCList = [];
-
-    rowObject.forEach(row => {
-        const found = this.LCList.some(oneLCL => oneLCL.CODICE_LCL === row.CODICE_LCL);
-        if (!found) this.LCList.push({
-            "CODICE_CONTRATTO": row.CODICE_CONTRATTO,
-            "CODICE_LCL": row.CODICE_LCL,
-            "STATO_LCL": row.STATO_LCL,
-            "SELECT": true,
-        });
-    });
-
-    this.page_addLCL = false;
-    this.page_loadFile = false;
-    this.page_LCList = true;
-});*/
-
-//worker.terminate();
-
-/* https://ru.vuejs.org/v2/guide/forms.html
-<input type="checkbox" id="jack" value="Джек" v-model="checkedNames">
-<label for="jack">Джек</label>
-<input type="checkbox" id="john" value="Джон" v-model="checkedNames">
-<label for="john">Джон</label>
-<input type="checkbox" id="mike" value="Майк" v-model="checkedNames">
-<label for="mike">Майк</label>
-<br>
-<span>Отмеченные имена: {{ checkedNames }}</span>
-new Vue({
-  el: '...',
-  data: {
-    checkedNames: []
-  }
-})
-*/
