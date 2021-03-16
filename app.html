@@ -138,6 +138,7 @@
                                         <th v-on:click="SorteTable(2)">Status<i v-if="Math.abs(sort) == 2"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
                                         <th v-on:click="SorteTable(3)">CE<i v-if="Math.abs(sort) == 3"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
                                         <th v-on:click="SorteTable(4)">CE Errati<i v-if="Math.abs(sort) == 4"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -146,6 +147,7 @@
                                         <td>{{CpList[cp].status}}</td>
                                         <td v-on:click="alert(CpList[cp].CE)">{{CpList[cp].CE.length}}</td>
                                         <td v-on:click="alert(CpList[cp].CE_Error)">{{CpList[cp].CE_Error.length}}</td>
+                                        <td v-on:click="alert('Confrontare')" class="noselect"><i class="material-icons">compare_arrows</i></td>
                                     </tr>
                                 </tbody>
                             </table>
