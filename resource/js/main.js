@@ -2,6 +2,7 @@ var app = new Vue({
     el: '#app',
     data: {
         CpList: [],
+        CpTable: [],
         loadFileData: {},
         page_loadFile: true,
         page_CpList: false,
@@ -14,70 +15,42 @@ var app = new Vue({
         getCpList() {
             return Object.keys(this.CpList);
         },
+        geTable() {
+            let table = [];
+            Object.keys(this.CpList).forEach(element => {
+                let temp = [element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length];
+                table.push(temp);
+            });
+            return table;
+        },
     },
     methods: {
         SorteTable(sorted) { //al posto di ataddare il SORT si potrebbe prima convertire CpList in un array, cosi da filtrare in pase al index della colona
+
             if (Math.abs(sorted) == this.sort) {
-                this.CpList = Object.fromEntries(Object.entries(this.CpList).reverse());
+                this.CpTable = this.CpTable.reverse();
                 this.sort *= -1;
                 return;
             }
 
-            switch (Math.abs(sorted)) {
-                case 1:
-                    this.CpList = Object.fromEntries(
-                        Object.entries(this.CpList).sort(function (a, b) {
-                            var A = a[0];
-                            var B = b[0];
-                            if (A < B) {
-                                return -1;
-                            }
-                            if (A > B) {
-                                return 1;
-                            }
+            this.CpTable = this.CpTable.sort(function (a, b) {
+                    var A = a[Math.abs(sorted) - 1];
+                    var B = b[Math.abs(sorted) - 1];
+                    if (A < B) {
+                        return -1;
+                    }
+                    if (A > B) {
+                        return 1;
+                    }
 
-                            // names must be equal
-                            return 0;
-                        }));
+                    // names must be equal
+                    return 0;
+                });
 
-                    this.sort = sorted;
-                    break;
+            this.sort = sorted;
 
-                case 2:
-                    this.CpList = Object.fromEntries(
-                        Object.entries(this.CpList).sort(function (a, b) {
-                            var A = Object.entries(a[1].status);
-                            var B = Object.entries(b[1].status);
-                            if (A < B) {
-                                return -1;
-                            }
-                            if (A > B) {
-                                return 1;
-                            }
-                            // names must be equal
-                            return 0;
-                        }));
-
-                    this.sort = sorted;
-                    break;
-
-                case 3:
-                    this.CpList = Object.fromEntries(
-                        Object.entries(this.CpList).sort((a, b) => a[1].CE.length - b[1].CE.length));
-
-                    this.sort = sorted;
-                    break;
-
-                case 4:
-                    this.CpList = Object.fromEntries(
-                        Object.entries(this.CpList).sort((a, b) => a[1].CE_Error.length - b[1].CE_Error.length));
-
-                    this.sort = sorted;
-                    break;
-
-                default:
-                    break;
-            }
+            console.log(this.sort);
+            console.log(this.CpTable);
         },
         // diff between just two arrays:
         arrayDiff(a, b) {
@@ -144,8 +117,13 @@ var app = new Vue({
                         this.CpList[row.CASARSID].CE.push(row.CEID);
                     });
 
+                    this.CpTable = [];
+                    Object.keys(this.CpList).forEach(element => {
+                        this.CpTable.push([element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length]);
+                    });
+
                     console.log(this.CpList);
-                    console.log(Object.keys(this.CpList));
+                    console.log(this.CpTable);
 
                     this.page_CpList_loader = false;
                     this.page_loadFile = false;
