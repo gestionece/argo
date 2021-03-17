@@ -16,7 +16,7 @@ var app = new Vue({
         },
     },
     methods: {
-        SorteTable(sorted) {
+        SorteTable(sorted) { //al posto di ataddare il SORT si potrebbe prima convertire CpList in un array, cosi da filtrare in pase al index della colona
             if (Math.abs(sorted) == this.sort) {
                 this.CpList = Object.fromEntries(Object.entries(this.CpList).reverse());
                 this.sort *= -1;
@@ -95,6 +95,26 @@ var app = new Vue({
 
             return diff;
         },
+        /*
+        let loadGeCoCP = [];
+        function LoadFileCP() {
+            var input = document.querySelector("#inputGeCo");
+
+            var reader = new FileReader();
+            reader.onload = function () {
+                var text = reader.result;
+                loadGeCoCP = text.split("\n");
+
+                for (let i = 0; i < loadGeCoCP.length; i++) {
+                    loadGeCoCP[i] = loadGeCoCP[i].replace(/\s/g,'');        
+                }
+
+                let nameCP = loadGeCoCP[0].replace(/\s/g,'');
+                console.log( arrayDiff(loadGeCoCP, saveListCP[nameCP].CE) );
+            };
+            reader.readAsText(input.files[0]);
+        }
+        */
         loadFile(selectedFile) {
             if (selectedFile && window.Worker) {
 
