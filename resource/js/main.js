@@ -48,9 +48,6 @@ var app = new Vue({
                 });
 
             this.sort = sorted;
-
-            console.log(this.sort);
-            console.log(this.CpTable);
         },
         // diff between just two arrays:
         arrayDiff(a, b) {
@@ -121,9 +118,6 @@ var app = new Vue({
                     Object.keys(this.CpList).forEach(element => {
                         this.CpTable.push([element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length]);
                     });
-
-                    console.log(this.CpList);
-                    console.log(this.CpTable);
 
                     this.page_CpList_loader = false;
                     this.page_loadFile = false;
