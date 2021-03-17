@@ -2,289 +2,173 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>ARGO</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARGO</title>
 
-  <link rel="shortcut icon" type="image/png" href="https://gestionece.github.io/resources/img/favicon.png">
+    <link rel="shortcut icon" type="image/png" href="https://gestionece.github.io/resources/img/favicon.png">
 
-  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.2/xlsx.full.min.js"></script>
+    <!-- production-версия, оптимизированная для размера и скорости -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
 
-  <!--link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"-->
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--Import Animate.css-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"
+        type="text/css">
 
-  <style>
-    *:focus {
-      outline: none;
-    }
+    <style>
+        *:focus {
+            outline: none;
+        }
 
-    /*body {
-      background: url(../img/1.jpg) no-repeat center fixed;
-      height: 100vh;
-      background-size: cover;
-    }*/
+        .noselect {
+            -webkit-touch-callout: none;
+            /* iOS Safari */
+            -webkit-user-select: none;
+            /* Safari */
+            -khtml-user-select: none;
+            /* Konqueror HTML */
+            -moz-user-select: none;
+            /* Firefox */
+            -ms-user-select: none;
+            /* Internet Explorer/Edge */
+            user-select: none;
+            /* Non-prefixed version, currently supported by Chrome and Opera */
+        }
 
-    .bg {
-      background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
-      background-size: cover;
+        html {
+            background: url(https://picsum.photos/1920/1080?random&blur=1) no-repeat center fixed;
+            background-size: cover;
 
-      height: 100vh;
-    }
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
 
-    .blur {
-      background-color: rgb(0 0 0 / 50%);
-      border-radius: 15px;
-      padding: 10px;
-      margin-top: 50px;
-      color: white;
-    }
-  </style>
+        .blur {
+            background-color: rgb(255 255 255 / 80%);
+            border-radius: 15px;
+            padding: 10px;
+            margin-top: 50px;
+            color: black;
+        }
 
-  <script src="/resource/js/litepicker.js"></script>
-  <link rel="stylesheet" href="/resource/css/litepicker.css" />
+        /* Start ScrollBar*/
+        ::-webkit-scrollbar {
+            width: 2px;
+            height: 1;
+        }
+
+        ::-webkit-scrollbar-button {
+            width: 5px;
+            height: 12px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4CAF50
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-corner {
+            background: transparent;
+        }
+
+        /* End ScrollBar*/
+    </style>
 </head>
 
-<body class="bg">
-
-  <div id="loadFile" class="w3-container" style="display: block;">
-    <div class="w3-row w3-margin-top w3-margin-bottom">
-      <div class="w3-col m2">
-        <p></p>
-      </div>
-      <div class="w3-col m8 blur w3-card">
-        <h1>Ehi,</h1>
-        <h2 id="pharStartPage">Ehi</h2>
-        <p id="txtStartPage"><i>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias ducimus quod dicta
-            illum, quaerat nemo fugiat voluptates et laborum modi laboriosam hic nostrum? Debitis voluptate soluta alias
-            animi placeat nostrum! Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi explicabo ducimus culpa
-            laudantium corporis molestias iste magni natus optio. Suscipit ducimus labore sapiente numquam consequuntur
-            libero ad sint harum neque!</i></p>
-
-        <div class="w3-row">
-          <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
-            <input
-              style="margin: 5px 0px 0px 5px; width: calc(100% - 90px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-              type="file" id="input" accept=".xls, .xlsx, .csv">
-            <button class="w3-button w3-right w3-green" id="button">Carica</button>
-          </div>
-        </div>
-        <div class="w3-row" style="display: none;">
-          <div class="w3-col m12 w3-border w3-round-small w3-margin-top w3-margin-bottom">
-            <input
-              style="margin: 5px 0px 0px 5px; width: calc(100% - 90px); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"
-              type="file" id="inputGeCo" accept=".txt">
-            <button class="w3-button w3-right w3-green" onclick="LoadFileCP()">Carica</button>
-          </div>
-        </div>
-      </div>
-      <div class="w3-col m2">
-        <p></p>
-      </div>
-    </div>
-  </div>
-
-  <div id="selectLCL" class="w3-container" style="display: none;">
-    <div class="w3-row w3-margin-top w3-margin-bottom">
-      <div class="w3-col l2 m1">
-        <p></p>
-      </div>
-      <div class="w3-col l8 m10 w3-round-xlarge" style="background-color: white;">
-        <!--https://www.w3schools.com/howto/tryit.asp?filename=tryhow_css_calendar-->
-        <div class="w3-row">
-          <div class="w3-col l5 m5 w3-container w3-margin-bottom">
-            <p><i>Filtri:</i></p>
-            <div class="w3-card-4 w3-container w3-round-xlarge">
-              <div class="w3-row w3-margin-top">
-                <label class="w3-text-blue"><b>Data inizio</b></label>
-                <input class="w3-input w3-border w3-card-4" id="d_s" type="date">
-              </div>
-              <div class="w3-row">
-                <label class="w3-text-blue"><b>Data fine</b></label>
-                <input class="w3-input w3-border w3-card-4" id="d_f" type="date">
-              </div>
-              <div class="w3-row w3-card-4 w3-margin-top w3-margin-bottom w3-padding w3-round-xlarge">
-                <p>
-                  <input class="w3-radio" name="selOpt" id="r_Prm" type="radio">
-                  <label class="w3-small">Premi</label>
-                </p>
-                <p>
-                  <input class="w3-radio" name="selOpt" id="r_PrmOpr" type="radio" disabled>
-                  <label class="w3-small">Premi Operatore</label>
-                </p>
-                <p>
-                  <input class="w3-radio" name="selOpt" id="r_Prc" type="radio" disabled>
-                  <label class="w3-small">Percentuali</label>
-                </p>
-                <p>
-                  <input class="w3-radio" name="selOpt" id="r_ST" type="radio" checked>
-                  <label class="w3-small">Smart Test</label>
-                </p>
-              </div>
-              <div class="w3-row w3-margin-bottom w3-card-4">
-                <!--<button class="w3-button w3-block w3-light-grey" onclick="options();">Options</button>-->
-                <div class="w3-col s4 m12 l5">
-                  <button class="w3-button w3-block w3-dark-grey" onclick="backLCList();">Indietro</button>
+<body>
+    <!-- App -->
+    <div id="app">
+        <!-- https://materializecss.com/ -->
+        <!-- https://www.tutorialspoint.com/materialize/index.htm -->
+        <div class="container">
+            <!-- <transition name="custom-classes-transition" enter-active-class="animate__animated animate__bounceIn"
+                leave-active-class="animate__animated animate__backOutUp"> -->
+            <section v-if="page_loadFile" class="blur">
+                <div class="row">
+                    <h2>Ehi non ti dimentichi nulla? <b>NO NIENTE!</b></h2>
+                    <p class="flow-text"><i>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Sequi dolore,
+                            eius
+                            molestias
+                            enim nesciunt necessitatibus! Dolorum aut, ex ratione aspernatur nisi, iste voluptates
+                            suscipit
+                            tempore
+                            repudiandae mollitia consequuntur excepturi eos.</i>
+                    </p>
                 </div>
-                <div class="w3-col s8 m12 l7">
-                  <button class="w3-button w3-block w3-green" onclick="calcBeneficit();">Calcola</button>
+                <div class="row">
+                    <div class="file-field input-field">
+                        <div class="btn green" :disabled='btnLoad_isDisabled'>
+                            <span>Load</span>
+                            <input @change="loadFile($event.target.files[0])" type="file" accept=".xls, .xlsx, .csv">
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate white-text" type="text">
+                            <!--readonly-->
+                        </div>
+                    </div>
                 </div>
-              </div>
+                <div v-if="page_CpList_loader" class="row">
+                    <div class="progress">
+                        <div class="indeterminate green"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="container" style="padding-bottom: 50px;">
+            <div v-if="page_CpList" class="blur z-depth-2">
+                <div class="row">
+                    <div class="col s12">
+                        <div class="col-content">
+                            <p class="flow-text"><i>Risultato:</i></p>
+                            <table class="highlight z-depth-1 white" style="border-radius: 15px;">
+                                <thead class="noselect">
+                                    <tr>
+                                        <th v-on:click="SorteTable(1)">CP<i v-if="Math.abs(sort) == 1" class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(2)">Status<i v-if="Math.abs(sort) == 2"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(3)">CE<i v-if="Math.abs(sort) == 3"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(4)">CE Errati<i v-if="Math.abs(sort) == 4"  class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up' : 'arrow_drop_down')}}</i></th>
+                                        <th style="max-width: 50px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr v-for="cp in getCpList">
+                                        <td>{{cp}}</td>
+                                        <td>{{CpList[cp].status}}</td>
+                                        <td v-on:click="alert(CpList[cp].CE)">{{CpList[cp].CE.length}}</td>
+                                        <td v-on:click="alert(CpList[cp].CE_Error)">{{CpList[cp].CE_Error.length}}</td>
+                                        <td v-on:click="alert('Confrontare')" class="noselect"><i class="material-icons">compare_arrows</i></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12">
+                        <div class="col-content">
+                            <a class="waves-effect waves-light btn green" v-on:click="backLCList"><i
+                                    class="material-icons left">navigate_before</i>Back</a>
+                            <a class="waves-effect waves-light btn green right"><i
+                                    class="material-icons right">navigate_next</i>Next</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="w3-col l7 m7 w3-container">
-            <p><i>Elimina LCL, premendo su "x":</i></p>
-            <div class="w3-col w3-margin-bottom">
-              <ul id="addListLCL" class="w3-ul w3-card-4 w3-round-xlarge">
-                <!-- Injection JavaScript -->
-              </ul>
-            </div>
-            <p id="txtRemoveList" class="w3-margin-top" style="display: none;">
-              <i>Agiungi il contratto, premendosu "+":</i>
-            </p>
-            <div class="w3-col w3-margin-bottom">
-              <ul id="removeListLCL" class="w3-ul w3-card-4 w3-round-xlarge">
-                <!-- Injection JavaScript -->
-              </ul>
-            </div>
-          </div>
         </div>
-      </div>
-      <div class="w3-col l2 m1">
-        <p></p>
-      </div>
-    </div>
-    <div id="modalEditLCL" class="w3-modal">
-      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-
-        <div class="w3-center"><br>
-          <span onclick="closeModaLCL();" class="w3-button w3-xlarge w3-hover-red w3-display-topright"
-            title="Close Modal">&times;</span>
-        </div>
-
-        <div class="w3-container">
-          <h2 id="labelLCL">
-            <!-- Injection JavaScript -->
-          </h2>
-          <div class="w3-section">
-            <label><b>Tipo LCL</b></label>
-            <select id="typeLCL" class="w3-select w3-border" name="option">
-              <!--<option value="" disabled selected>Choose your option</option>-->
-              <option value="MF">MF-TF</option>
-              <option value="TF">TF-15/30</option>
-              <option value="MF_R">MF-TF Ripassi</option>
-              <option value="TF_R">TF-15/30 Ripassi</option>
-              <option value="M2">M2</option>
-            </select>
-          </div>
-          <div class="w3-section">
-            <label><b>Data</b></label>
-            <input id="dateLCL" class="w3-input w3-border w3-margin-bottom" type="date" value="1998-08-08" required
-              disabled>
-          </div>
-        </div>
-
-        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-          <div class="w3-bar noStamp"><button class="w3-button w3-left w3-red"
-              onclick="closeModaLCL();">Annulla</button><button class="w3-button w3-right w3-green"
-              id="ModalButtonSaveLCL" onclick="">Salva</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div id="optionsTab" class="w3-container" style="display: none;">
-    <div class="w3-row w3-margin-top w3-margin-bottom">
-      <div class="w3-col l3 m1">
-        <p></p>
-      </div>
-      <div class="w3-col l6 m10 w3-round-xlarge">
-        <div id="optionsList" class="w3-col w3-margin-bottom">
-          <!-- Injection JavaScript -->
-        </div>
-        <div class="w3-bar noStamp">
-          <button class="w3-button w3-left w3-dark-grey" onclick="backOp();">&laquo; Back</button>
-          <button class="w3-button w3-left w3-light-grey" disabled onclick="options();">Save Options</button>
-        </div>
-        <div class="w3-col l3 m1">
-          <p></p>
-        </div>
-      </div>
-    </div>
-
-    <div id="modalEditOp" class="w3-modal">
-      <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
-
-        <div class="w3-center"><br>
-          <span onclick="closeModal();" class="w3-button w3-xlarge w3-hover-red w3-display-topright"
-            title="Close Modal">&times;</span>
-        </div>
-
-        <div class="w3-container">
-          <h2 id="labelCN">
-            <!-- Injection JavaScript -->
-          </h2>
-          <div class="w3-section">
-            <label><b>Euro/Punto MF-TF</b></label>
-            <input id="epMF" class="w3-input w3-border w3-margin-bottom" type="number" placeholder="Euro" step="0.01"
-              min="0.01" max="10" required>
-          </div>
-          <div class="w3-section">
-            <label><b>Euro/Punto TF15/30</b></label>
-            <input id="epTF" class="w3-input w3-border w3-margin-bottom" type="number" placeholder="Euro" step="0.01"
-              min="0.01" max="10" required>
-          </div>
-          <div class="w3-section">
-            <label><b>Euro/Punto M2</b></label>
-            <input id="epM2" class="w3-input w3-border w3-margin-bottom" type="number" placeholder="Euro" step="0.01"
-              min="0.01" max="10" required>
-          </div>
-        </div>
-
-        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-          <div class="w3-bar noStamp"><button class="w3-button w3-left w3-red"
-              onclick="closeModal();">Cancel</button><button class="w3-button w3-right w3-green" id="ModalButtonSave"
-              onclick="">Save</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <div id="BeneficitTab" class="w3-container w3-padding-64 w3-small" style="display: none;">
-    <div class="w3-row w3-margin-top">
-      <div class="w3-col l3 m1 w3-hide-small">
-        <p></p>
-      </div>
-      <div class="w3-col l6 m10 s12">
-        <div id="listCnLCL" class="w3-center">
-          <!-- Injection JavaScript -->
-        </div>
-        <style>
-          @media print {
-            .noStamp {
-              opacity: 0;
-              display: none;
-            }
-          }
-        </style>
-        <div class="w3-bar w3-medium noStamp">
-          <button class="w3-button w3-left w3-dark-grey" onclick="backBeneficit();">« Back</button>
-          <button class="w3-button w3-right w3-green" onclick="Print();">Print &raquo;</button>
-          <button class="w3-button w3-right w3-light-grey" onclick="download_csv();" disabled>Download</button>
-        </div>
-      </div>
-      <div class="w3-col l3 m1 w3-hide-small">
-        <p></p>
-      </div>
-    </div>
-  </div>
-
+        <!--JavaScript at end of body for optimized loading-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        <script src="resource/js/main.js"></script>
 </body>
-<script src="db.js"></script>
-<script src="uiCommands.js"></script>
-<script src="excel.js"></script>
 
 </html>
