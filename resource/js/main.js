@@ -35,12 +35,12 @@ var app = new Vue({
                             if (A > B) {
                                 return 1;
                             }
-        
+
                             // names must be equal
                             return 0;
                         }));
 
-                        this.sort = sorted;
+                    this.sort = sorted;
                     break;
 
                 case 2:
@@ -58,26 +58,42 @@ var app = new Vue({
                             return 0;
                         }));
 
-                        this.sort = sorted;
+                    this.sort = sorted;
                     break;
 
                 case 3:
                     this.CpList = Object.fromEntries(
-                        Object.entries(this.CpList).sort((a,b) => a[1].CE.length - b[1].CE.length));
+                        Object.entries(this.CpList).sort((a, b) => a[1].CE.length - b[1].CE.length));
 
-                        this.sort = sorted;
+                    this.sort = sorted;
                     break;
 
                 case 4:
                     this.CpList = Object.fromEntries(
-                        Object.entries(this.CpList).sort((a,b) => a[1].CE_Error.length - b[1].CE_Error.length));
+                        Object.entries(this.CpList).sort((a, b) => a[1].CE_Error.length - b[1].CE_Error.length));
 
-                        this.sort = sorted;
+                    this.sort = sorted;
                     break;
 
                 default:
                     break;
             }
+        },
+        // diff between just two arrays:
+        arrayDiff(a, b) {
+            var arrays = Array.prototype.slice.call(arguments);
+            var diff = [];
+
+            arrays.forEach(function (arr, i) {
+                var other = i === 1 ? a : b;
+                arr.forEach(function (x) {
+                    if (other.indexOf(x) === -1) {
+                        diff.push(x);
+                    }
+                });
+            })
+
+            return diff;
         },
         loadFile(selectedFile) {
             if (selectedFile && window.Worker) {
