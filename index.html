@@ -151,7 +151,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="cp in CpTable">
-                                        <td>{{cp[0]}}</td>
+                                        <td><a v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]" target="_blank">{{cp[0]}}</a></td>
                                         <td>{{cp[1]}}</td>
                                         <td v-on:click="alert(CpList[cp].CE)">{{cp[2]}}</td>
                                         <td v-on:click="alert(CpList[cp].CE_Error)">{{cp[3]}}</td>
