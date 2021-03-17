@@ -134,24 +134,45 @@
                             <table class="highlight z-depth-1 white" style="border-radius: 15px;">
                                 <thead class="noselect">
                                     <tr>
-                                        <th v-on:click="SorteTable(1)">CP<i v-if="Math.abs(sort) == 1"
-                                                class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up'
-                                                : 'arrow_drop_down')}}</i></th>
-                                        <th v-on:click="SorteTable(2)">Status<i v-if="Math.abs(sort) == 2"
-                                                class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up'
-                                                : 'arrow_drop_down')}}</i></th>
-                                        <th v-on:click="SorteTable(3)">CE<i v-if="Math.abs(sort) == 3"
-                                                class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up'
-                                                : 'arrow_drop_down')}}</i></th>
-                                        <th v-on:click="SorteTable(4)">CE Errati<i v-if="Math.abs(sort) == 4"
-                                                class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'arrow_drop_up'
-                                                : 'arrow_drop_down')}}</i></th>
+                                        <th v-on:click="SorteTable(1)">CP
+                                            <i v-if="Math.abs(sort) == 1"
+                                                class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
+                                                : 'expand_more')}}
+                                            </i>
+                                            <i v-else="Math.abs(sort) == 2"
+                                            class="tiny material-icons">unfold_more</i>
+                                        </th>
+                                        <th v-on:click="SorteTable(2)">Status
+                                            <i v-if="Math.abs(sort) == 2"
+                                                class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
+                                                : 'expand_more')}}
+                                            </i>
+                                            <i v-else="Math.abs(sort) == 2"
+                                            class="tiny material-icons">unfold_more</i>
+                                        </th>
+                                        <th v-on:click="SorteTable(3)">CE
+                                            <i v-if="Math.abs(sort) == 3"
+                                                class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
+                                                : 'expand_more')}}
+                                            </i>
+                                            <i v-else="Math.abs(sort) == 2"
+                                            class="tiny material-icons">unfold_more</i>
+                                        </th>
+                                        <th v-on:click="SorteTable(4)">CE Errati
+                                            <i v-if="Math.abs(sort) == 4"
+                                                class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
+                                                : 'expand_more')}}
+                                            </i>
+                                            <i v-else="Math.abs(sort) == 2"
+                                            class="tiny material-icons">unfold_more</i>
+                                        </th>
                                         <th style="max-width: 50px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="cp in CpTable">
-                                        <td><a v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]" target="_blank">{{cp[0]}}</a></td>
+                                        <td><a v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"
+                                                target="_blank">{{cp[0]}}</a></td>
                                         <td>{{cp[1]}}</td>
                                         <td v-on:click="alert(CpList[cp[0]].CE)">{{cp[2]}}</td>
                                         <td v-on:click="alert(CpList[cp[0]].CE_Error)">{{cp[3]}}</td>
