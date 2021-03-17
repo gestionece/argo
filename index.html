@@ -150,11 +150,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="cp in getCpList">
-                                        <td>{{cp}}</td>
-                                        <td>{{CpList[cp].status}}</td>
-                                        <td v-on:click="alert(CpList[cp].CE)">{{CpList[cp].CE.length}}</td>
-                                        <td v-on:click="alert(CpList[cp].CE_Error)">{{CpList[cp].CE_Error.length}}</td>
+                                    <tr v-for="cp in CpTable">
+                                        <td>{{cp[0]}}</td>
+                                        <td>{{cp[1]}}</td>
+                                        <td v-on:click="alert(CpList[cp].CE)">{{cp[2]}}</td>
+                                        <td v-on:click="alert(CpList[cp].CE_Error)">{{cp[3]}}</td>
                                         <td v-on:click="alert('Confrontare')" class="noselect"><i
                                                 class="material-icons">compare_arrows</i></td>
                                     </tr>
