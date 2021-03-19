@@ -139,32 +139,28 @@
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
-                                            <i v-else="Math.abs(sort) == 2"
-                                            class="tiny material-icons">unfold_more</i>
+                                            <i v-else="Math.abs(sort) == 2" class="tiny material-icons">unfold_more</i>
                                         </th>
                                         <th v-on:click="SorteTable(2)">Status
                                             <i v-if="Math.abs(sort) == 2"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
-                                            <i v-else="Math.abs(sort) == 2"
-                                            class="tiny material-icons">unfold_more</i>
+                                            <i v-else="Math.abs(sort) == 2" class="tiny material-icons">unfold_more</i>
                                         </th>
                                         <th v-on:click="SorteTable(3)">CE
                                             <i v-if="Math.abs(sort) == 3"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
-                                            <i v-else="Math.abs(sort) == 2"
-                                            class="tiny material-icons">unfold_more</i>
+                                            <i v-else="Math.abs(sort) == 2" class="tiny material-icons">unfold_more</i>
                                         </th>
                                         <th v-on:click="SorteTable(4)">CE Errati
                                             <i v-if="Math.abs(sort) == 4"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
-                                            <i v-else="Math.abs(sort) == 2"
-                                            class="tiny material-icons">unfold_more</i>
+                                            <i v-else="Math.abs(sort) == 2" class="tiny material-icons">unfold_more</i>
                                         </th>
                                         <th style="max-width: 50px;"></th>
                                     </tr>
@@ -195,6 +191,16 @@
                     </div>
                 </div>
             </div>
+            <!-- Modal Structure -->
+            <!--<div id="modal1" class="modal">
+                <div class="modal-content">
+                    <h4>Modal Header</h4>
+                    <p>A bunch of text</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+                </div>
+            </div>-->
         </div>
     </div>
     <!--JavaScript at end of body for optimized loading-->
