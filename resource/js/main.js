@@ -8,6 +8,10 @@ var app = new Vue({
         page_CpList: false,
         btnLoad_isDisabled: false,
         page_CpList_loader: false,
+        modal_show_data: false,
+        modal_CP: "",
+        modal_CE: [],
+        modal_link: true,
 
         sort: 1,
     },
@@ -34,18 +38,18 @@ var app = new Vue({
             }
 
             this.CpTable = this.CpTable.sort(function (a, b) {
-                    var A = a[Math.abs(sorted) - 1];
-                    var B = b[Math.abs(sorted) - 1];
-                    if (A < B) {
-                        return -1;
-                    }
-                    if (A > B) {
-                        return 1;
-                    }
+                var A = a[Math.abs(sorted) - 1];
+                var B = b[Math.abs(sorted) - 1];
+                if (A < B) {
+                    return -1;
+                }
+                if (A > B) {
+                    return 1;
+                }
 
-                    // names must be equal
-                    return 0;
-                });
+                // names must be equal
+                return 0;
+            });
 
             this.sort = sorted;
         },
@@ -65,26 +69,78 @@ var app = new Vue({
 
             return diff;
         },
-        /*
-        let loadGeCoCP = [];
-        function LoadFileCP() {
-            var input = document.querySelector("#inputGeCo");
-
+        openDataGeco(cp, ce, link) {
+            this.modal_CP = cp;
+            this.modal_CE = ce;
+            this.modal_link = link;
+            this.modal_show_data = true;
+        },
+        openConfrGeco(cp, result) {
+            if (this.CpList[cp].Result == false) {
+                this.openDataGeco("Sono identici", [], false);
+            } else {
+                this.modal_link = true;
+                this.modal_CP = cp;
+                this.modal_CE = result;
+                this.modal_show_data = true;
+            }
+        },
+        loadFileGeCo(selectedFile) {
+            let CPs = [];
             var reader = new FileReader();
-            reader.onload = function () {
-                var text = reader.result;
-                loadGeCoCP = text.split("\n");
+            let readFile = (index) => {
+                if (index >= selectedFile.length) return;
+                var file = selectedFile[index];
+                reader.onload = (e) => {
+                    let multiple = false;
+                    if (selectedFile.length > 1) {
+                        multiple = true;
+                    }
+                    this.confrontCE(e.target.result, multiple)
+                    CPs.push(selectedFile[index].name);
 
-                for (let i = 0; i < loadGeCoCP.length; i++) {
-                    loadGeCoCP[i] = loadGeCoCP[i].replace(/\s/g,'');        
+                    readFile(index + 1);
                 }
+                reader.readAsText(file);
+            }
+            readFile(0);
 
-                let nameCP = loadGeCoCP[0].replace(/\s/g,'');
-                console.log( arrayDiff(loadGeCoCP, saveListCP[nameCP].CE) );
-            };
-            reader.readAsText(input.files[0]);
-        }
-        */
+            this.openDataGeco("Load File", CPs, false);
+        },
+        confrontCE(text, multiple) { //https://github.com/metafloor/bwip-js/wiki/Online-Barcode-API 
+            loadGeCoCP = text.split("\n");
+
+            for (let i = 0; i < loadGeCoCP.length; i++) {
+                loadGeCoCP[i] = loadGeCoCP[i].replace(/\s/g, '');
+            }
+
+            let nameCp = loadGeCoCP[0];
+            loadGeCoCP.shift();
+
+            let diff = this.arrayDiff(loadGeCoCP, this.CpList[nameCp].CE);
+
+            /*diff = diff.filter(item => !this.CpList[nameCp].CE_Error.includes(item));
+            console.log(diff); remove CE presenti nella lista CE_Error
+            */
+
+            for (let i = 0; i < this.CpTable.length; i++) {
+                if (this.CpTable[i][0] == nameCp) {
+                    this.CpTable[i][4] = true;
+                }
+            }
+
+            if (diff.length > 0) {
+                this.CpList[nameCp].Result = diff;
+                if (multiple == false) {
+                    this.openDataGeco(nameCp, diff, true);
+                }
+            } else {
+                this.CpList[nameCp].Result = false;
+                if (multiple == false) {
+                    this.openDataGeco("Sono identici", [], false);
+                }
+            }
+        },
         loadFile(selectedFile) {
             if (selectedFile && window.Worker) {
 
@@ -103,6 +159,7 @@ var app = new Vue({
                                 status: "OK",
                                 CE: [],
                                 CE_Error: [],
+                                Result: [],
                             };
                         }
 
@@ -116,7 +173,7 @@ var app = new Vue({
 
                     this.CpTable = [];
                     Object.keys(this.CpList).forEach(element => {
-                        this.CpTable.push([element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length]);
+                        this.CpTable.push([element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length, false]);
                     });
 
                     this.page_CpList_loader = false;
