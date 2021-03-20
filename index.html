@@ -151,9 +151,9 @@
                                         <td><a v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"
                                                 target="_blank">{{cp[0]}}</a></td>
                                         <td>{{cp[1]}}</td>
-                                        <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE)">{{cp[2]}}</td>
-                                        <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error)">{{cp[3]}}</td>
-                                        <td v-on:click="if (cp[4] == true) openConfrGeco(cp[0], CpList[cp[0]].Result)"
+                                        <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)">{{cp[2]}}</td>
+                                        <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error, true)">{{cp[3]}}</td>
+                                        <td v-on:click="if (cp[4] == true) openConfrGeco(cp[0], CpList[cp[0]].Result, true)"
                                             class="noselect"><i class="material-icons">{{((cp[4] == true) ? 'check'
                                                 : 'close')}}</i>{{CpList[cp[0]].Result.length > 0 ? CpList[cp[0]].Result.length: ''}}</td>
                                     </tr>
@@ -183,7 +183,7 @@
                     <div class="modal-content">
                         <h4>{{modal_CP}}<a v-show="modal_link" v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + modal_CP" class="material-icons" target="_blank">open_in_new</a></h4>
                         <ul v-if="modal_CE.length > 0" class="collection">
-                            <li v-for="(CE, index) in modal_CE" class="collection-item">{{index+1}}: {{CE}}</li> <!--v-bind:class="{red: (CpList[modal_CP].CE_Error.find(element => element == CE))}"-->
+                            <li v-for="(CE, index) in modal_CE" v-bind:class="{'red-text': CheckErrorCE(CE)}" class="collection-item">{{index+1}}: {{CE}}</li> <!--v-bind:class="{red: (CpList[modal_CP].CE_Error.find(element => element == CE))}"-->
                         </ul>
                     </div>
                     <div class="modal-footer">
