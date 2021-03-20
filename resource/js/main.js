@@ -16,9 +16,6 @@ var app = new Vue({
         sort: 1,
     },
     computed: {
-        getCpList() {
-            return Object.keys(this.CpList);
-        },
         geTable() {
             let table = [];
             Object.keys(this.CpList).forEach(element => {
@@ -29,6 +26,13 @@ var app = new Vue({
         },
     },
     methods: {
+        CheckErrorCE(CE) {
+            if (this.modal_link == false) {
+                return false;
+            } else {
+                return this.CpList[this.modal_CP].CE_Error.find(element => element == CE)
+            }
+        },
         SorteTable(sorted) { //al posto di ataddare il SORT si potrebbe prima convertire CpList in un array, cosi da filtrare in pase al index della colona
 
             if (Math.abs(sorted) == this.sort) {
