@@ -58,6 +58,10 @@
             cursor: pointer;
         }
 
+        .center {
+            text-align: center;
+        }
+
         @media only screen and (max-width: 600px) {
             #app {
                 display: none;
@@ -117,28 +121,28 @@
                                             </i>
                                             <i v-else class="tiny material-icons">unfold_more</i>
                                         </th>
-                                        <th class="noselect pointer" v-on:click="SorteTable(2)">Status
+                                        <th class="noselect pointer center" v-on:click="SorteTable(2)">Status
                                             <i v-if="Math.abs(sort) == 2"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
                                             <i v-else class="tiny material-icons">unfold_more</i>
                                         </th>
-                                        <th class="noselect pointer" v-on:click="SorteTable(3)">CE
+                                        <th class="noselect pointer center" v-on:click="SorteTable(3)">CE
                                             <i v-if="Math.abs(sort) == 3"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
                                             <i v-else class="tiny material-icons">unfold_more</i>
                                         </th>
-                                        <th class="noselect pointer" v-on:click="SorteTable(4)">CE Errati
+                                        <th class="noselect pointer center" v-on:click="SorteTable(4)">CE Errati
                                             <i v-if="Math.abs(sort) == 4"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
                                             <i v-else class="tiny material-icons">unfold_more</i>
                                         </th>
-                                        <th class="noselect pointer" v-on:click="SorteTable(5)">Controllati
+                                        <th class="noselect pointer center" v-on:click="SorteTable(5)">Controllati
                                             <i v-if="Math.abs(sort) == 5"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
@@ -152,13 +156,13 @@
                                         <td>{{cp[0]}}<a
                                                 v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"><i
                                                     class="tiny material-icons" target="_blank">open_in_new</i></a></td>
-                                        <td class="noselect">{{cp[1]}}</td>
+                                        <td class="noselect center">{{cp[1]}}</td>
                                         <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)"
-                                            class="noselect pointer">{{cp[2]}}</td>
+                                            class="noselect pointer center">{{cp[2]}}</td>
                                         <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error, true)"
-                                            class="noselect pointer">{{cp[3]}}</td>
+                                            class="noselect pointer center">{{cp[3]}}</td>
                                         <td v-on:click="if (cp[4] == true) openConfrGeco(cp[0], CpList[cp[0]].Result, true)"
-                                            class="noselect" v-bind:class="{'pointer': (cp[4] == true)}"><i
+                                            class="noselect center" v-bind:class="{'pointer': (cp[4] == true)}"><i
                                                 class="material-icons">{{((cp[4] == true) ? 'check'
                                                 : 'close')}}</i>{{CpList[cp[0]].Result.length > 0 ?
                                             CpList[cp[0]].Result.length: ''}}</td>
