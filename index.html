@@ -15,7 +15,7 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
     <!--Import Animate.css-->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet"
         type="text/css">
@@ -62,12 +62,18 @@
         .pointer {
             cursor: pointer;
         }
+
+        @media only screen and (max-width: 600px) {
+            #app {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body>
     <!-- App -->
-    <div id="app">
+    <div id="app" style="display: none;" v-show="loadVue">
         <!-- https://materializecss.com/ -->
         <!-- https://www.tutorialspoint.com/materialize/index.htm -->
         <div class="container">
@@ -152,13 +158,19 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="cp in CpTable">
-                                        <td>{{cp[0]}}<a v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"><i class="tiny material-icons" target="_blank">open_in_new</i></a></td>
+                                        <td>{{cp[0]}}<a
+                                                v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"><i
+                                                    class="tiny material-icons" target="_blank">open_in_new</i></a></td>
                                         <td class="noselect">{{cp[1]}}</td>
-                                        <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)" class="noselect pointer">{{cp[2]}}</td>
-                                        <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error, true)" class="noselect pointer">{{cp[3]}}</td>
+                                        <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)"
+                                            class="noselect pointer">{{cp[2]}}</td>
+                                        <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error, true)"
+                                            class="noselect pointer">{{cp[3]}}</td>
                                         <td v-on:click="if (cp[4] == true) openConfrGeco(cp[0], CpList[cp[0]].Result, true)"
-                                            class="noselect" v-bind:class="{'pointer': (cp[4] == true)}"><i class="material-icons">{{((cp[4] == true) ? 'check'
-                                                : 'close')}}</i>{{CpList[cp[0]].Result.length > 0 ? CpList[cp[0]].Result.length: ''}}</td>
+                                            class="noselect" v-bind:class="{'pointer': (cp[4] == true)}"><i
+                                                class="material-icons">{{((cp[4] == true) ? 'check'
+                                                : 'close')}}</i>{{CpList[cp[0]].Result.length > 0 ?
+                                            CpList[cp[0]].Result.length: ''}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -172,8 +184,7 @@
                                     class="material-icons left">navigate_before</i>Back</a>
                             <div class="file-field input-field" style="display: inline;">
                                 <div class="waves-effect waves-light btn green right">
-                                    <span><i
-                                        class="material-icons left">file_upload</i>Load</span>
+                                    <span><i class="material-icons left">file_upload</i>Load</span>
                                     <input multiple @change="loadFileGeCo($event.target.files)" type="file"
                                         accept=".txt">
                                 </div>
@@ -184,17 +195,25 @@
                 <!-- Modal Structure -->
                 <div v-show="modal_show_data" class="modal" style="top: 10%; display: block; z-index: 999999;">
                     <div class="modal-content">
-                        <h4>{{modal_CP}}<a v-show="modal_link" v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + modal_CP" class="material-icons" target="_blank">open_in_new</a></h4>
-                        <ul v-if="modal_CE.length > 0" class="collection" style="overflow: hidden; overflow-y: auto; max-height: 260px;">
-                            <li v-for="(CE, index) in modal_CE" v-bind:class="{'red-text': CheckErrorCE(CE)}" class="collection-item" :key="index">{{index+1}}: {{CE}}
-                                <i  v-show="modal_link" v-on:click="OpenBarCode(CE)" class="black-text material-icons right noselect pointer">{{((edit_Barcode === CE) ? 'expand_less': 'expand_more')}}</i>
-                                <img v-show="edit_Barcode === CE" alt="BarCode" v-bind:src="'http://bwipjs-api.metafloor.com/?bcid=code128&amp;text=' + CE + '&amp;includetext'" style="display: block;">
+                        <h4>{{modal_CP}}<a v-show="modal_link"
+                                v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + modal_CP"
+                                class="material-icons" target="_blank">open_in_new</a></h4>
+                        <ul v-if="modal_CE.length > 0" class="collection"
+                            style="overflow: hidden; overflow-y: auto; max-height: 260px;">
+                            <li v-for="(CE, index) in modal_CE" v-bind:class="{'red-text': CheckErrorCE(CE)}"
+                                class="collection-item" :key="index">{{index+1}}: {{CE}}
+                                <i v-show="modal_link" v-on:click="OpenBarCode(CE)"
+                                    class="black-text material-icons right noselect pointer">{{((edit_Barcode === CE) ?
+                                    'expand_less': 'expand_more')}}</i>
+                                <img v-show="edit_Barcode === CE" alt="BarCode"
+                                    v-bind:src="'http://bwipjs-api.metafloor.com/?bcid=code128&amp;text=' + CE + '&amp;includetext'"
+                                    style="display: block;">
                             </li>
                         </ul>
                     </div>
                     <div class="modal-footer">
                         <a v-show="modal_link" v-on:click="DownloadCELIst(modal_CP, modal_CE)"
-                        class="modal-close waves-effect waves-green btn-flat">Download</a>
+                            class="modal-close waves-effect waves-green btn-flat">Download</a>
                         <a v-on:click="modal_show_data = false"
                             class="modal-close waves-effect waves-green btn-flat red">Close</a>
                     </div>
