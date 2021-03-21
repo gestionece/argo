@@ -27,6 +27,14 @@ var app = new Vue({
         },
     },
     methods: {
+        DownloadCELIst(CP, CE) {
+            var data = CP;
+            CE.forEach(function (code) {
+                data += '\n' + code;
+            });
+
+            this.download(data, CP, ".txt")
+        },
         OpenBarCode(CE) {
             if (this.edit_Barcode != null && this.edit_Barcode == CE) {
                 this.edit_Barcode = null;
@@ -201,5 +209,22 @@ var app = new Vue({
             this.page_loadFile = true;
             this.page_CpList = false;
         },
+        download(data, filename, type) {
+            var file = new Blob([data], { type: type });
+            if (window.navigator.msSaveOrOpenBlob) // IE10+
+                window.navigator.msSaveOrOpenBlob(file, filename);
+            else { // Others
+                var a = document.createElement("a"),
+                    url = URL.createObjectURL(file);
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(function () {
+                    document.body.removeChild(a);
+                    window.URL.revokeObjectURL(url);
+                }, 0);
+            }
+        }
     }
 });
