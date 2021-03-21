@@ -190,7 +190,7 @@
                     </div>
                 </div>
                 <!-- Modal Structure -->
-                <div v-show="modal_show_data" class="modal" style="top: 10%; display: block; z-index: 999999;">
+                <div v-if="modal_show_data" class="modal" style="top: 10%; display: block; z-index: 999999;">
                     <div class="modal-content">
                         <h4>{{modal_CP}}<a v-show="modal_link"
                                 v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + modal_CP"
