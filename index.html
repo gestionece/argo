@@ -162,9 +162,9 @@
                                                     class="tiny material-icons" target="_blank">open_in_new</i></a></td>
                                         <td class="noselect center">{{cp[1]}}</td>
                                         <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)"
-                                            class="noselect pointer center">{{cp[2]}}</td>
+                                            class="noselect center" v-bind:class="{'pointer': (cp[2] > 0)}">{{cp[2]}}</td>
                                         <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error, true)"
-                                            class="noselect pointer center">{{cp[3]}}</td>
+                                            class="noselect center" v-bind:class="{'pointer': (cp[3] > 0)}">{{cp[3]}}</td>
                                         <td v-on:click="if (cp[4] == true) openConfrGeco(cp[0], CpList[cp[0]].Result, true)"
                                             class="noselect center" v-bind:class="{'pointer': (cp[4] == true)}"><i
                                                 class="material-icons">{{((cp[4] == true) ? 'check'
