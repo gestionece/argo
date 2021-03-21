@@ -113,35 +113,35 @@
                             <table class="highlight z-depth-1 white" style="border-radius: 15px;">
                                 <thead class="noselect">
                                     <tr>
-                                        <th v-on:click="SorteTable(1)">CP
+                                        <th class="pointer" v-on:click="SorteTable(1)">CP
                                             <i v-if="Math.abs(sort) == 1"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
                                             <i v-else class="tiny material-icons">unfold_more</i>
                                         </th>
-                                        <th v-on:click="SorteTable(2)">Status
+                                        <th class="noselect pointer" v-on:click="SorteTable(2)">Status
                                             <i v-if="Math.abs(sort) == 2"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
                                             <i v-else class="tiny material-icons">unfold_more</i>
                                         </th>
-                                        <th v-on:click="SorteTable(3)">CE
+                                        <th class="noselect pointer" v-on:click="SorteTable(3)">CE
                                             <i v-if="Math.abs(sort) == 3"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
                                             <i v-else class="tiny material-icons">unfold_more</i>
                                         </th>
-                                        <th v-on:click="SorteTable(4)">CE Errati
+                                        <th class="noselect pointer" v-on:click="SorteTable(4)">CE Errati
                                             <i v-if="Math.abs(sort) == 4"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
                                             </i>
                                             <i v-else class="tiny material-icons">unfold_more</i>
                                         </th>
-                                        <th v-on:click="SorteTable(5)">Controllati
+                                        <th class="noselect pointer" v-on:click="SorteTable(5)">Controllati
                                             <i v-if="Math.abs(sort) == 5"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
