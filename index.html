@@ -114,7 +114,7 @@
                             <table class="highlight z-depth-1 white" style="border-radius: 15px;">
                                 <thead class="noselect">
                                     <tr>
-                                        <th class="pointer" v-on:click="SorteTable(1)">CP
+                                        <th class="pointer" v-on:click="SorteTable(1)">&emsp;CP
                                             <i v-if="Math.abs(sort) == 1"
                                                 class="tiny material-icons">{{((Math.sign(sort) == 1) ? 'expand_less'
                                                 : 'expand_more')}}
@@ -153,7 +153,7 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="cp in CpTable">
-                                        <td>{{cp[0]}}<a
+                                        <td>&emsp;{{cp[0]}}<a
                                                 v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"><i
                                                     class="tiny material-icons" target="_blank">open_in_new</i></a></td>
                                         <td class="noselect center">{{cp[1]}}</td>
