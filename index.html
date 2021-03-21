@@ -58,6 +58,10 @@
             margin-top: 50px;
             color: black;
         }
+
+        .pointer {
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -148,13 +152,12 @@
                                 </thead>
                                 <tbody>
                                     <tr v-for="cp in CpTable">
-                                        <td><a v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"
-                                                target="_blank">{{cp[0]}}</a></td>
-                                        <td>{{cp[1]}}</td>
-                                        <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)">{{cp[2]}}</td>
-                                        <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error, true)">{{cp[3]}}</td>
+                                        <td>{{cp[0]}}<a v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"><i class="tiny material-icons" target="_blank">open_in_new</i></a></td>
+                                        <td class="noselect">{{cp[1]}}</td>
+                                        <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)" class="noselect pointer">{{cp[2]}}</td>
+                                        <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error, true)" class="noselect pointer">{{cp[3]}}</td>
                                         <td v-on:click="if (cp[4] == true) openConfrGeco(cp[0], CpList[cp[0]].Result, true)"
-                                            class="noselect"><i class="material-icons">{{((cp[4] == true) ? 'check'
+                                            class="noselect pointer"><i class="material-icons">{{((cp[4] == true) ? 'check'
                                                 : 'close')}}</i>{{CpList[cp[0]].Result.length > 0 ? CpList[cp[0]].Result.length: ''}}</td>
                                     </tr>
                                 </tbody>
@@ -184,7 +187,7 @@
                         <h4>{{modal_CP}}<a v-show="modal_link" v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + modal_CP" class="material-icons" target="_blank">open_in_new</a></h4>
                         <ul v-if="modal_CE.length > 0" class="collection">
                             <li v-for="(CE, index) in modal_CE" v-bind:class="{'red-text': CheckErrorCE(CE)}" class="collection-item" :key="index">{{index+1}}: {{CE}}
-                                <i v-on:click="OpenBarCode(CE)" class="black-text material-icons right" style="cursor: pointer;">{{((edit_Barcode === CE) ? 'expand_less': 'expand_more')}}</i>
+                                <i v-on:click="OpenBarCode(CE)" class="black-text material-icons right pointer">{{((edit_Barcode === CE) ? 'expand_less': 'expand_more')}}</i>
                                 <img v-show="edit_Barcode === CE" alt="BarCode" v-bind:src="'http://bwipjs-api.metafloor.com/?bcid=code128&amp;text=' + CE + '&amp;includetext'" style="display: block;">
                             </li>
                         </ul>
