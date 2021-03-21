@@ -12,6 +12,7 @@ var app = new Vue({
         modal_CP: "",
         modal_CE: [],
         modal_link: true,
+        edit_Barcode: null,
 
         sort: 1,
     },
@@ -26,6 +27,13 @@ var app = new Vue({
         },
     },
     methods: {
+        OpenBarCode(CE) {
+            if (this.edit_Barcode != null && this.edit_Barcode == CE) {
+                this.edit_Barcode = null;
+            } else {
+                this.edit_Barcode = CE;
+            }
+        },
         CheckErrorCE(CE) {
             if (this.modal_link == false) {
                 return false;
