@@ -13,6 +13,7 @@ var app = new Vue({
         modal_CE: [],
         modal_link: true,
         edit_Barcode: null,
+        loadVue: true,
 
         sort: 1,
     },
