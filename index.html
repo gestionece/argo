@@ -158,7 +158,7 @@
                                 <tbody>
                                     <tr v-for="cp in CpTable">
                                         <td>&emsp;{{cp[0]}}<a
-                                                v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"><i
+                                                v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]" class="noselect"><i
                                                     class="tiny material-icons" target="_blank">open_in_new</i></a></td>
                                         <td class="noselect center">{{cp[1]}}</td>
                                         <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)"
@@ -198,7 +198,7 @@
                     <div class="modal-content">
                         <h4>{{modal_CP}}<a v-show="modal_link"
                                 v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + modal_CP"
-                                class="material-icons" target="_blank">open_in_new</a></h4>
+                                class="material-icons noselect" target="_blank">open_in_new</a></h4>
                         <ul v-if="modal_CE.length > 0" class="collection"
                             style="overflow: hidden; overflow-y: auto; max-height: 260px;">
                             <li v-for="(CE, index) in modal_CE" v-bind:class="{'red-text': CheckErrorCE(CE)}"
