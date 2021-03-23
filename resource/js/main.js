@@ -14,6 +14,7 @@ var app = new Vue({
         modal_link: true,
         edit_Barcode: null,
         loadVue: true,
+        showBarCodeCP: false,
 
         sort: 1,
     },
