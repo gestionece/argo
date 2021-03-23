@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARGO</title>
 
-    <link href="https://gestionece.github.io/resources/img/favicon.png" rel="shortcut icon" type="image/png" >
+    <link href="https://gestionece.github.io/resources/img/favicon.png" rel="shortcut icon" type="image/png">
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -59,7 +59,8 @@
         }
 
         .pointer:hover {
-            color: #039be5;/*#4CAF50;*/
+            color: #039be5;
+            /*#4CAF50;*/
         }
 
         .center {
@@ -158,13 +159,16 @@
                                 <tbody>
                                     <tr v-for="cp in CpTable">
                                         <td>&emsp;{{cp[0]}}<a
-                                                v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]" class="noselect"><i
-                                                    class="tiny material-icons" target="_blank">open_in_new</i></a></td>
+                                                v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + cp[0]"
+                                                class="noselect"><i class="tiny material-icons"
+                                                    target="_blank">open_in_new</i></a></td>
                                         <td class="noselect center">{{cp[1]}}</td>
                                         <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)"
-                                            class="noselect center" v-bind:class="{'pointer': (cp[2] > 0)}">{{cp[2]}}</td>
+                                            class="noselect center" v-bind:class="{'pointer': (cp[2] > 0)}">{{cp[2]}}
+                                        </td>
                                         <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error, true)"
-                                            class="noselect center" v-bind:class="{'pointer': (cp[3] > 0)}">{{cp[3]}}</td>
+                                            class="noselect center" v-bind:class="{'pointer': (cp[3] > 0)}">{{cp[3]}}
+                                        </td>
                                         <td v-on:click="if (cp[4] == true) openConfrGeco(cp[0], CpList[cp[0]].Result, true)"
                                             class="noselect center" v-bind:class="{'pointer': (cp[4] == true)}"><i
                                                 class="material-icons">{{((cp[4] == true) ? 'check'
@@ -182,8 +186,9 @@
                             <div class="row">
                                 <div class="file-field input-field">
                                     <div class="waves-effect waves-light btn green" v-on:click="backLCList"><i
-                                        class="material-icons left">navigate_before</i>Back</div>
-                                    <div class="waves-effect waves-light btn green right" v-bind:class="{pulse: modal_CE.length == 0}">
+                                            class="material-icons left">navigate_before</i>Back</div>
+                                    <div class="waves-effect waves-light btn green right"
+                                        v-bind:class="{pulse: modal_CE.length == 0}">
                                         <span><i class="material-icons left">file_upload</i>Load</span>
                                         <input multiple @change="loadFileGeCo($event.target.files)" type="file"
                                             accept=".txt">
@@ -196,9 +201,12 @@
                 <!-- Modal Structure -->
                 <div v-if="modal_show_data" class="modal" style="top: 10%; display: block; z-index: 999999;">
                     <div class="modal-content">
-                        <h4>{{modal_CP}}<a v-show="modal_link"
+                        <h4 v-on:click="showBarCodeCP = !showBarCodeCP" class="noselect">{{modal_CP}}<a v-show="modal_link"
                                 v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + modal_CP"
                                 class="material-icons noselect" target="_blank">open_in_new</a></h4>
+                        <img v-show="showBarCodeCP" alt="BarCode"
+                            v-bind:src="'http://bwipjs-api.metafloor.com/?bcid=code128&amp;text=' + modal_CP + '&amp;includetext'"
+                            style="display: block;">
                         <ul v-if="modal_CE.length > 0" class="collection"
                             style="overflow: hidden; overflow-y: auto; max-height: 260px;">
                             <li v-for="(CE, index) in modal_CE" v-bind:class="{'red-text': CheckErrorCE(CE)}"
