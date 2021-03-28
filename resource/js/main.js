@@ -36,7 +36,7 @@ var app = new Vue({
                 data += '\n' + code;
             });
 
-            this.download(data, CP, ".txt")
+            this.download(data, CP, ".txt");
         },
         OpenBarCode(CE) {
             if (this.edit_Barcode != null && this.edit_Barcode == CE) {
@@ -140,11 +140,10 @@ var app = new Vue({
             let nameCp = loadGeCoCP[0];
             loadGeCoCP.shift();
 
-            let diff = this.arrayDiff(loadGeCoCP, this.CpList[nameCp].CE);
+            if (Object.keys(this.CpList).includes(nameCp)) {
+                let diff = this.arrayDiff(loadGeCoCP, this.CpList[nameCp].CE);
 
-            /*diff = diff.filter(item => !this.CpList[nameCp].CE_Error.includes(item));
-            console.log(diff); remove CE presenti nella lista CE_Error
-            */
+            diff = diff.filter(item => !this.CpList[nameCp].CE_Error.includes(item));
 
             for (let i = 0; i < this.CpTable.length; i++) {
                 if (this.CpTable[i][0] == nameCp) {
@@ -162,6 +161,7 @@ var app = new Vue({
                 if (multiple == false) {
                     this.openDataGeco("Sono identici", [], false);
                 }
+            }
             }
         },
         loadFile(selectedFile) {
@@ -245,6 +245,7 @@ var app = new Vue({
             }
         },
         backLCList() {
+            this.modal_show_data = false;
             this.page_loadFile = true;
             this.page_CpList = false;
         },
