@@ -154,6 +154,7 @@
                                             </i>
                                             <i v-else class="tiny material-icons">unfold_more</i>
                                         </th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -174,6 +175,12 @@
                                                 class="material-icons">{{((cp[4] == true) ? 'check'
                                                 : 'close')}}</i>{{CpList[cp[0]].Result.length > 0 ?
                                             CpList[cp[0]].Result.length: ''}}</td>
+                                        <td class="noselect center">
+                                            <label>
+                                                <input type="checkbox" v-model="cp[5]"/>
+                                                <span></span>
+                                            </label>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
