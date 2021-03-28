@@ -99,7 +99,8 @@
                 </div>
                 <div class="row">
                     <div class="file-field input-field">
-                        <div class="waves-effect waves-light btn green" v-bind:class="{'pulse': (btnLoad_isDisabled != true)}" :disabled='btnLoad_isDisabled'>
+                        <div class="waves-effect waves-light btn green"
+                            v-bind:class="{'pulse': (btnLoad_isDisabled != true)}" :disabled='btnLoad_isDisabled'>
                             <span><i class="material-icons left">file_upload</i>Load</span>
                             <input @change="loadFile($event.target.files[0])" type="file"
                                 accept=".xls, .xlsx, .xlsm, .csv">
@@ -194,16 +195,14 @@
                 <div class="row">
                     <div class="col s12">
                         <div class="col-content">
-                            <div class="row">
-                                <div class="file-field input-field">
-                                    <div class="waves-effect waves-light btn green" v-on:click="backLCList"><i
-                                            class="material-icons left">navigate_before</i>Back</div>
-                                    <div class="waves-effect waves-light btn green right"
-                                        v-bind:class="{pulse: modal_CE.length == 0}">
-                                        <span><i class="material-icons left">file_upload</i>Load</span>
-                                        <input multiple @change="loadFileGeCo($event.target.files)" type="file"
-                                            accept=".txt">
-                                    </div>
+                            <div class="file-field input-field">
+                                <div class="waves-effect waves-light btn green" v-on:click="backLCList"><i
+                                        class="material-icons left">navigate_before</i>Back</div>
+                                <div class="waves-effect waves-light btn green right"
+                                    v-bind:class="{pulse: modal_CE.length == 0}">
+                                    <span><i class="material-icons left">file_upload</i>Load</span>
+                                    <input multiple @change="loadFileGeCo($event.target.files)" type="file"
+                                        accept=".txt">
                                 </div>
                             </div>
                         </div>
@@ -224,7 +223,8 @@
                             style="overflow: hidden; overflow-y: auto; max-height: 260px; border: 1px solid #3a3a3a;">
                             <li v-for="(CE, index) in modal_CE" v-bind:class="{'red-text': CheckErrorCE(CE)}"
                                 class="collection-item grey darken-3" :key="index"
-                                style="border-bottom: 1px solid #2d2d2d;"><span class="noselect">{{index+1}}: </span>{{CE}}
+                                style="border-bottom: 1px solid #2d2d2d;"><span class="noselect">{{index+1}}:
+                                </span>{{CE}}
                                 <i v-show="modal_link" v-on:click="OpenBarCode(CE)"
                                     class="black-text material-icons right noselect pointer">{{((edit_Barcode === CE) ?
                                     'expand_less': 'expand_more')}}</i>
