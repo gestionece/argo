@@ -47,11 +47,11 @@
         }
 
         .blur {
-            background-color: rgb(255 255 255 / 80%);
+            background-color: rgb(0 0 0 / 80%);
             border-radius: 15px;
             padding: 10px;
             margin-top: 50px;
-            color: black;
+            color: #ffffff;
         }
 
         .pointer {
@@ -116,7 +116,7 @@
                     <div class="col s12">
                         <div class="col-content">
                             <p class="flow-text"><i>Risultato:</i></p>
-                            <table class="highlight z-depth-1 white" style="border-radius: 15px;">
+                            <table class="highlight z-depth-1 grey darken-3" style="border-radius: 15px;">
                                 <thead class="noselect">
                                     <tr>
                                         <th class="pointer" v-on:click="SorteTable(1)">&emsp;CP
@@ -206,7 +206,7 @@
                     </div>
                 </div>
                 <!-- Modal Structure -->
-                <div v-if="modal_show_data" class="modal" style="top: 10%; display: block; z-index: 999999;">
+                <div v-if="modal_show_data" class="modal grey darken-2" style="top: 10%; display: block; z-index: 999999;">
                     <div class="modal-content">
                         <h4 v-on:click="showBarCodeCP = !showBarCodeCP" class="noselect">{{modal_CP}}<a v-show="modal_link"
                                 v-bind:href="'https://geco.impresalevratti.it/admin/backend/pallet/?q=' + modal_CP"
@@ -214,10 +214,10 @@
                         <img v-show="showBarCodeCP" alt="BarCode"
                             v-bind:src="'http://bwipjs-api.metafloor.com/?bcid=code128&amp;text=' + modal_CP + '&amp;includetext'"
                             style="display: block;">
-                        <ul v-if="modal_CE.length > 0" class="collection"
-                            style="overflow: hidden; overflow-y: auto; max-height: 260px;">
+                        <ul v-if="modal_CE.length > 0" class="collection grey darken-3"
+                            style="overflow: hidden; overflow-y: auto; max-height: 260px; border: 1px solid #3a3a3a;">
                             <li v-for="(CE, index) in modal_CE" v-bind:class="{'red-text': CheckErrorCE(CE)}"
-                                class="collection-item" :key="index">{{index+1}}: {{CE}}
+                                class="collection-item grey darken-3" :key="index" style="border-bottom: 1px solid #2d2d2d;">{{index+1}}: {{CE}}
                                 <i v-show="modal_link" v-on:click="OpenBarCode(CE)"
                                     class="black-text material-icons right noselect pointer">{{((edit_Barcode === CE) ?
                                     'expand_less': 'expand_more')}}</i>
@@ -227,7 +227,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="modal-footer">
+                    <div class="modal-footer grey darken-2">
                         <a v-show="modal_link" v-on:click="DownloadCELIst(modal_CP, modal_CE)"
                             class="modal-close waves-effect waves-green btn-flat">Download</a>
                         <a v-on:click="modal_show_data = false"
