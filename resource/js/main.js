@@ -4,6 +4,7 @@ var app = new Vue({
         CpList: [],
         CpTable: [],
         loadFileData: {},
+        selectedFile_name: "",
         page_loadFile: true,
         page_CpList: false,
         btnLoad_isDisabled: false,
@@ -174,6 +175,8 @@ var app = new Vue({
 
                     this.loadFileData = e.data; //uso worker.js per ricevere già JSON dal file EXCEL, problema consite nel riceve due volte, visto che ci sono pagine diverse(si potrebbe valuitare di utlizare un foglio per un contratto).
                     this.CpList = [];
+
+                    this.selectedFile_name = selectedFile.name;
 
                     if ("CASARSID" in this.loadFileData[0]) {
                         this.loadFileData.forEach(row => {
