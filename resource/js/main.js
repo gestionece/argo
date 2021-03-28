@@ -3,7 +3,6 @@ var app = new Vue({
     data: {
         CpList: [],
         CpTable: [],
-        loadFileData: {},
         selectedFile_name: "",
         page_loadFile: true,
         page_CpList: false,
@@ -173,13 +172,13 @@ var app = new Vue({
                 worker.postMessage(selectedFile);
                 worker.onmessage = (e) => {
 
-                    this.loadFileData = e.data; //uso worker.js per ricevere già JSON dal file EXCEL, problema consite nel riceve due volte, visto che ci sono pagine diverse(si potrebbe valuitare di utlizare un foglio per un contratto).
+                    let loadFileData = e.data; //uso worker.js per ricevere già JSON dal file EXCEL, problema consite nel riceve due volte, visto che ci sono pagine diverse(si potrebbe valuitare di utlizare un foglio per un contratto).
                     this.CpList = [];
 
                     this.selectedFile_name = selectedFile.name;
 
-                    if ("CASARSID" in this.loadFileData[0] && "CEID" in this.loadFileData[0]) {
-                        this.loadFileData.forEach(row => {
+                    if ("CASARSID" in loadFileData[0] && "CEID" in loadFileData[0]) {
+                        loadFileData.forEach(row => {
                             if (this.CpList[row.CASARSID] == undefined) {
                                 this.CpList[row.CASARSID] = {
                                     status: "OK",
@@ -205,8 +204,8 @@ var app = new Vue({
                         this.page_loadFile = false;
                         this.page_CpList = true;
 
-                    } else if ("Casars" in this.loadFileData[0]) {
-                        this.loadFileData.forEach(row => {
+                    } else if ("Casars" in loadFileData[0]) {
+                        loadFileData.forEach(row => {
                             if (this.CpList[row["Casars"]] == undefined) {
                                 this.CpList[row["Casars"]] = {
                                     status: "OK",
