@@ -169,13 +169,13 @@
                                                 class="noselect"><i class="tiny material-icons"
                                                     target="_blank">open_in_new</i></a></td>
                                         <td class="noselect center">{{cp[1]}}</td>
-                                        <td v-on:click="if (cp[2] != 0) openDataGeco(cp[0], CpList[cp[0]].CE, true)"
+                                        <td v-on:click="(cp[2] != 0) ? openDataGeco(cp[0], CpList[cp[0]].CE, true) : ''"
                                             class="noselect center" v-bind:class="{'pointer': (cp[2] > 0)}">{{cp[2]}}
                                         </td>
-                                        <td v-on:click="if (cp[3] != 0) openDataGeco(cp[0], CpList[cp[0]].CE_Error, true)"
+                                        <td v-on:click="(cp[3] != 0) ? openDataGeco(cp[0], CpList[cp[0]].CE_Error, true) : ''"
                                             class="noselect center" v-bind:class="{'pointer': (cp[3] > 0)}">{{cp[3]}}
                                         </td>
-                                        <td v-on:click="if (cp[4] == true) openConfrGeco(cp[0], CpList[cp[0]].Result, true)"
+                                        <td v-on:click="(cp[4] == true) ? openConfrGeco(cp[0], CpList[cp[0]].Result, true) : ''"
                                             class="noselect center" v-bind:class="{'pointer': (cp[4] == true)}"><i
                                                 class="material-icons">{{((cp[4] == true) ? 'check'
                                                 : 'close')}}</i>{{CpList[cp[0]].Result.length > 0 ?
@@ -244,8 +244,9 @@
             </div>
         </div>
     </div>
+    <!--<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>-->
     <!--JavaScript at end of body for optimized loading-->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
     <script src="resource/js/main.js"></script>
 </body>
 
