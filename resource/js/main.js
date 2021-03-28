@@ -195,7 +195,7 @@ var app = new Vue({
 
                     this.CpTable = [];
                     Object.keys(this.CpList).forEach(element => {
-                        this.CpTable.push([element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length, false]);
+                        this.CpTable.push([element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length, false, false]);
                     });
 
                     this.page_CpList_loader = false;
