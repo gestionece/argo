@@ -178,7 +178,7 @@ var app = new Vue({
 
                     this.selectedFile_name = selectedFile.name;
 
-                    if ("CASARSID" in this.loadFileData[0]) {
+                    if ("CASARSID" in this.loadFileData[0] && "CEID" in this.loadFileData[0]) {
                         this.loadFileData.forEach(row => {
                             if (this.CpList[row.CASARSID] == undefined) {
                                 this.CpList[row.CASARSID] = {
