@@ -175,32 +175,68 @@ var app = new Vue({
                     this.loadFileData = e.data; //uso worker.js per ricevere già JSON dal file EXCEL, problema consite nel riceve due volte, visto che ci sono pagine diverse(si potrebbe valuitare di utlizare un foglio per un contratto).
                     this.CpList = [];
 
-                    this.loadFileData.forEach(row => {
-                        if (this.CpList[row.CASARSID] == undefined) {
-                            this.CpList[row.CASARSID] = {
-                                status: "OK",
-                                CE: [],
-                                CE_Error: [],
-                                Result: [],
-                            };
-                        }
 
-                        if (row.CEID_ASSEGNATO_IMPRESA == "NO") {
-                            this.CpList[row.CASARSID].status = "KO";
-                            this.CpList[row.CASARSID].CE_Error.push(row.CEID);
-                        }
 
-                        this.CpList[row.CASARSID].CE.push(row.CEID);
-                    });
+                    if ("CASARSID" in this.loadFileData[0]) {
+                        this.loadFileData.forEach(row => {
+                            if (this.CpList[row.CASARSID] == undefined) {
+                                this.CpList[row.CASARSID] = {
+                                    status: "OK",
+                                    CE: [],
+                                    CE_Error: [],
+                                    Result: [],
+                                };
+                            }
+    
+                            if (row.CEID_ASSEGNATO_IMPRESA == "NO") {
+                                this.CpList[row.CASARSID].status = "KO";
+                                this.CpList[row.CASARSID].CE_Error.push(row.CEID);
+                            }
+    
+                            this.CpList[row.CASARSID].CE.push(row.CEID);
+                        });
 
-                    this.CpTable = [];
-                    Object.keys(this.CpList).forEach(element => {
-                        this.CpTable.push([element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length, false, false]);
-                    });
+                        this.CpTable = [];
+                        Object.keys(this.CpList).forEach(element => {
+                            this.CpTable.push([element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length, false, false]);
+                        });
+
+                        this.page_loadFile = false;
+                        this.page_CpList = true;
+
+                    } else if ("Casars" in this.loadFileData[0]) {
+                        this.loadFileData.forEach(row => {
+                            if (this.CpList[row["Casars"]] == undefined) {
+                                this.CpList[row["Casars"]] = {
+                                    status: "OK",
+                                    CE: [],
+                                    CE_Error: [],
+                                    Result: [],
+                                };
+                            }
+    
+                            if (row["Tipo"] == "Errata Lettura MF" || row["Tipo"] == "Errata Lettura TF") {
+                                this.CpList[row["Casars"]].status = "KO";
+                                this.CpList[row["Casars"]].CE_Error.push(row["Codice Contatore"]);
+                            }
+    
+                            this.CpList[row["Casars"]].CE.push(row["Codice Contatore"]);
+                        });
+
+                        this.CpTable = [];
+                        Object.keys(this.CpList).forEach(element => {
+                            this.CpTable.push([element, this.CpList[element].status, this.CpList[element].CE.length, this.CpList[element].CE_Error.length, false, false]);
+                        });
+
+                        this.page_loadFile = false;
+                        this.page_CpList = true;
+
+                    }
+                    else {
+                        alert("Errore load File");
+                    }                   
 
                     this.page_CpList_loader = false;
-                    this.page_loadFile = false;
-                    this.page_CpList = true;
                     this.btnLoad_isDisabled = false;
 
                     worker.terminate();
