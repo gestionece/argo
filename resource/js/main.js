@@ -175,8 +175,6 @@ var app = new Vue({
                     this.loadFileData = e.data; //uso worker.js per ricevere già JSON dal file EXCEL, problema consite nel riceve due volte, visto che ci sono pagine diverse(si potrebbe valuitare di utlizare un foglio per un contratto).
                     this.CpList = [];
 
-
-
                     if ("CASARSID" in this.loadFileData[0]) {
                         this.loadFileData.forEach(row => {
                             if (this.CpList[row.CASARSID] == undefined) {
