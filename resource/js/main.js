@@ -29,6 +29,12 @@ var app = new Vue({
         },
     },
     methods: {
+        DownloadAll() {
+            Object.keys(app.CpList).forEach(CP => {
+                let url = "https://geco.impresalevratti.it/admin/backend/pallet/?q=" + CP + "#download";
+                window.open(url, '_blank');
+            });
+        },
         DownloadCELIst(CP, CE) {
             var data = CP;
             CE.forEach(function (code) {
