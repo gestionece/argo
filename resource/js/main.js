@@ -146,27 +146,28 @@ var app = new Vue({
             loadGeCoCP.shift();
 
             if (Object.keys(this.CpList).includes(nameCp)) {
-                let diff = this.arrayDiff(loadGeCoCP, this.CpList[nameCp].CE);
+                let diff = this.arrayDiff(this.CpList[nameCp].CE, loadGeCoCP);
 
-            diff = diff.filter(item => !this.CpList[nameCp].CE_Error.includes(item));
+                //elimina i errore di lettura
+                //diff = diff.filter(item => !this.CpList[nameCp].CE_Error.includes(item));
 
-            for (let i = 0; i < this.CpTable.length; i++) {
-                if (this.CpTable[i][0] == nameCp) {
-                    this.CpTable[i][4] = true;
+                for (let i = 0; i < this.CpTable.length; i++) {
+                    if (this.CpTable[i][0] == nameCp) {
+                        this.CpTable[i][4] = true;
+                    }
                 }
-            }
 
-            if (diff.length > 0) {
-                this.CpList[nameCp].Result = diff;
-                if (multiple == false) {
-                    this.openDataGeco(nameCp, diff, true);
+                if (diff.length > 0) {
+                    this.CpList[nameCp].Result = diff;
+                    if (multiple == false) {
+                        this.openDataGeco(nameCp, diff, true);
+                    }
+                } else {
+                    this.CpList[nameCp].Result = false;
+                    if (multiple == false) {
+                        this.openDataGeco("Sono identici", [], false);
+                    }
                 }
-            } else {
-                this.CpList[nameCp].Result = false;
-                if (multiple == false) {
-                    this.openDataGeco("Sono identici", [], false);
-                }
-            }
             }
         },
         loadFile(selectedFile) {
@@ -193,12 +194,12 @@ var app = new Vue({
                                     Result: [],
                                 };
                             }
-    
+
                             if (row.CEID_ASSEGNATO_IMPRESA == "NO") {
                                 this.CpList[row.CASARSID].status = "KO";
                                 this.CpList[row.CASARSID].CE_Error.push(row.CEID);
                             }
-    
+
                             this.CpList[row.CASARSID].CE.push(row.CEID);
                         });
 
@@ -220,12 +221,12 @@ var app = new Vue({
                                     Result: [],
                                 };
                             }
-    
+
                             if (row["Tipo"] == "Errata Lettura MF" || row["Tipo"] == "Errata Lettura TF") {
                                 this.CpList[row["Casars"]].status = "KO";
                                 this.CpList[row["Casars"]].CE_Error.push(row["Codice Contatore"]);
                             }
-    
+
                             this.CpList[row["Casars"]].CE.push(row["Codice Contatore"]);
                         });
 
@@ -240,7 +241,7 @@ var app = new Vue({
                     }
                     else {
                         alert("Errore load File");
-                    }                   
+                    }
 
                     this.page_CpList_loader = false;
                     this.btnLoad_isDisabled = false;
